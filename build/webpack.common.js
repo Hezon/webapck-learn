@@ -3,12 +3,22 @@ const path = require('path')
 const srcPath = path.join(__dirname, '..', 'src')
 const distPath = path.join(__dirname, '..', 'dist')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 module.exports = {
-  entry: path.join(srcPath, 'index'),
+  entry: {
+    index: path.join(srcPath, '/views/index/index'),
+    other: path.join(srcPath, '/views/other/other')
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(srcPath, 'index.html'),
-      filename: 'index.html'
+      template: path.join(srcPath, '/views/index/index.html'),
+      filename: 'index.html',
+      chunks: ['index']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(srcPath, '/views/other/other.html'),
+      filename: 'other.html',
+      chunks: ['other']
     })
   ],
   module: {
