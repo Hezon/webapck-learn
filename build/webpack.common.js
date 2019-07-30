@@ -35,7 +35,33 @@ module.exports = {
       {
         test: /\.css$/, // css 文件作为入口
         loader: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'] // 若在 css 文件中引入 less 文件，就需要加上 less-loader
-      }
+      },
+      {
+        test: /\.html$/,
+        use: ['html-withimg-loader']
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            // 小于 5kb 的图片转换为 base64 格式
+            // 否则，用 file-loader 生成 url 格式
+            limit: 5 * 1024,
+
+            // outputPath: '/img/',
+
+            name: 'img/[name].[hash:7].[ext]'
+
+            // 设置图片 cdn 地址
+            // publicPath: 'http://cdn/abc.com'
+          }
+        }
+      },
+      // {
+      //   test:/\.(png|jpg|gif)$/,
+      //   use:'file-loader'
+      // }
     ]
   }
 }
