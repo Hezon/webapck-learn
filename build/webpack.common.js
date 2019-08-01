@@ -3,6 +3,7 @@ const path = require('path')
 const srcPath = path.join(__dirname, '..', 'src')
 const distPath = path.join(__dirname, '..', 'dist')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: {
@@ -19,8 +20,20 @@ module.exports = {
       template: path.join(srcPath, '/views/other/other.html'),
       filename: 'other.html',
       chunks: ['manifest', 'vendor', 'common', 'other']
-    })
+    }),
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery'
+    // })
   ],
+  externals: {
+    $: 'jQuery'
+  },
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@': srcPath
+    }
+  },
   module: {
     noParse: /jquery|lodash/, // 不解析 jquery 和 lodash 的内部依赖
     rules: [ // loader 的执行顺序是：从下往上，从右往左

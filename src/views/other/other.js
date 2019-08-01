@@ -1,4 +1,4 @@
-import $ from 'jquery'
-import '../common.js'
+// import $ from 'jquery'
+import '@/views/common.js'
 console.log('other')
 

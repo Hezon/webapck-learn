@@ -1,8 +1,11 @@
-import $ from 'jquery'
-import '../../assets/css/index.css'
+// import $ from 'jquery'
+import '@/assets/css/index.css'
 // import './assets/css/index.less'
-import '../common.js'
+import '@/views/common'
 console.log(ENV)
+
+import testData from '@/data/index'
+console.log(testData)
 
 function dec(target) {
   target.isTest = true
