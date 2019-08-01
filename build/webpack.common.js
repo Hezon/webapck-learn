@@ -22,6 +22,7 @@ module.exports = {
     })
   ],
   module: {
+    noParse: /jquery|lodash/, // 不解析 jquery 和 lodash 的内部依赖
     rules: [ // loader 的执行顺序是：从下往上，从右往左
       {
         test: /\.js$/,

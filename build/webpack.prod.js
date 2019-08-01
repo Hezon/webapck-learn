@@ -39,7 +39,8 @@ module.exports = smart(webpackCommonConf, {
     }),
     new MiniCssExtractPlugin({
       filename: 'css/main.[chunkhash:8].css'
-    })
+    }),
+    new webpack.IgnorePlugin(/\.\/locale/,/moment/) // 忽略 moment 的语言包
   ],
 
   optimization: {
