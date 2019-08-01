@@ -13,12 +13,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(srcPath, '/views/index/index.html'),
       filename: 'index.html',
-      chunks: ['index'] // 引用 entry 配置的 chunks
+      chunks: ['manifest', 'vendor', 'common', 'index'] // 引用 chunks
     }),
     new HtmlWebpackPlugin({
       template: path.join(srcPath, '/views/other/other.html'),
       filename: 'other.html',
-      chunks: ['other']
+      chunks: ['manifest', 'vendor', 'common', 'other']
     })
   ],
   module: {
