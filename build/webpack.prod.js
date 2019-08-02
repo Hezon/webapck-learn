@@ -8,6 +8,8 @@ const distPath = path.join(__dirname, '..', 'dist')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = smart(webpackCommonConf, {
   mode: 'production',
@@ -40,7 +42,15 @@ module.exports = smart(webpackCommonConf, {
     new MiniCssExtractPlugin({
       filename: 'css/main.[chunkhash:8].css'
     }),
-    new webpack.IgnorePlugin(/\.\/locale/,/moment/) // 忽略 moment 的语言包
+    new webpack.IgnorePlugin(/\.\/locale/,/moment/), // 忽略 moment 的语言包
+    new CleanWebpackPlugin(), // 默认清空 output.path
+    new CopyWebpackPlugin([
+      {
+        from: path.join(srcPath, 'data'), // 将 src/data 拷贝到 dist/data
+        to: path.join(distPath, 'data')
+      }
+    ]),
+    new webpack.BannerPlugin('author by JY')
   ],
 
   optimization: {
