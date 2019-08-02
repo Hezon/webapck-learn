@@ -44,6 +44,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.vue$/,
+        loader: ['vue-loader'],
+        include: srcPath
+      },
+      {
         test: /\.less$/, // less 文件作为入口
         loader: ['style-loader', 'css-loader', 'postcss-loader']
       },
