@@ -1,32 +1,47 @@
 // webpack.common.js 公共的配置
-const path = require('path')
-const srcPath = path.join(__dirname, '..', 'src')
-const distPath = path.join(__dirname, '..', 'dist')
+const { join } = require('path')
+const srcPath = join(__dirname, '..', 'src')
+const distPath = join(__dirname, '..', 'dist')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: {
-    index: path.join(srcPath, '/views/index/index'),
-    other: path.join(srcPath, '/views/other/other')
+    index: join(srcPath, '/views/index/index'),
+    other: join(srcPath, '/views/other/other'),
+    vue: join(srcPath, '/views/vue/vue'),
+    vue2: join(srcPath, '/views/vue2/vue2'),
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(srcPath, '/views/index/index.html'),
+      template: join(srcPath, '/views/index/index.html'),
       filename: 'index.html',
       chunks: ['manifest', 'vendor', 'common', 'index'] // 引用 chunks
     }),
     new HtmlWebpackPlugin({
-      template: path.join(srcPath, '/views/other/other.html'),
+      template: join(srcPath, '/views/other/other.html'),
       filename: 'other.html',
       chunks: ['manifest', 'vendor', 'common', 'other']
     }),
+    new HtmlWebpackPlugin({
+      template: join(srcPath, '/views/vue/vue.html'),
+      filename: 'vue.html',
+      chunks: ['manifest', 'vendor', 'common', 'vue']
+    }),
+    new HtmlWebpackPlugin({
+      template: join(srcPath, '/views/vue2/vue2.html'),
+      filename: 'vue2.html',
+      chunks: ['manifest', 'vendor', 'common', 'vue2']
+    }),
+    new VueLoaderPlugin()
     // new webpack.ProvidePlugin({
     //   $: 'jquery'
     // })
   ],
   externals: {
-    $: 'jQuery'
+    $: 'jQuery',
+    vue: 'Vue'
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -38,15 +53,14 @@ module.exports = {
     noParse: /jquery|lodash/, // 不解析 jquery 和 lodash 的内部依赖
     rules: [ // loader 的执行顺序是：从下往上，从右往左
       {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
         test: /\.js$/,
         loader: ['babel-loader'],
         include: srcPath,
         exclude: /node_modules/
-      },
-      {
-        test: /\.vue$/,
-        loader: ['vue-loader'],
-        include: srcPath
       },
       {
         test: /\.less$/, // less 文件作为入口
@@ -63,7 +77,7 @@ module.exports = {
       // },
       {
         test: /\.css$/, // css 文件作为入口
-        loader: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'] // 若在 css 文件中引入 less 文件，就需要加上 less-loader
+        loader: ['style-loader', 'vue-style-loader', 'css-loader', 'postcss-loader', 'less-loader'] // 若在 css 文件中引入 less 文件，就需要加上 less-loader
       },
       {
         test: /\.html$/,
